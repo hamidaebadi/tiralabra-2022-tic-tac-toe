@@ -16,7 +16,14 @@ and produce the best result, which could be the best possible next move in our g
 
 
 ## Requirements
- -[]
+ -[] Program hires a bot to play tic-tac-toe with a human
+ -[] Game is played in Terminal via commands 
+ -[] human player start the game by telling the position in the board to add its mark
+ -[] human plays with sign O
+ -[] Bot plays with sign X
+ -[] after each moves program prints the game state such as game board and possible winer
+ -[] program can identify the winer 
+ -[] program prints statics of the game at the end
 
 # Algorithms' time and space complexity
  **MiniMax** 
