@@ -7,5 +7,6 @@
  - basic class structure designed
  - coverage report installed and run
  - some technical issued solved. Upgrading to newer version of peotry dependency management
-
+ 
+ - strucutres need to be reasoned again and carefully
 ### Total hours used this week: 10h
