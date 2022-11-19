@@ -1,18 +1,16 @@
-class Bot:
-    """Class Bot models a bot player using minimax/alpha-beta
+from player import Player
+
+class Bot(Player):
+    """Class Bot inherits from class Player and models a bot player using minimax/alpha-beta
     pruning algorithm to play against a human player or another bot player
 
     Attributes:
-        self.__name: constatnt name of the bot player
+        same attr as base class
     """
 
-    def __init__(self, name: str):
-        self.__NAME = name
-
-    #getter and setters
-    @property
-    def name(self):
-        return self.__NAME
+    def __init__(self, name: str, sign: str):
+        super().__init__(name, sign)
+        self.__turn = False
 
     
 

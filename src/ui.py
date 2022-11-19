@@ -33,8 +33,8 @@ class UserInterface:
                 pl1_name = input("What is your name? ")
                 bot_name = input("Choose a name for your opponent: ")
                 tictactoe_board = GameBoard()
-                human_player = Player(name=pl1_name)
-                bot_player = Bot(name=bot_name)
+                human_player = Player(name=pl1_name, sign="X")
+                bot_player = Bot(name=bot_name, sign="O")
                 game = Game(tictactoe_board, human_player, bot_player)
                 game.start()
                 
