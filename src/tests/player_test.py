@@ -8,4 +8,7 @@ class TestPlayer(unittest.TestCase):
     def test_name_getter(self):
         self.assertEqual(self.test_player.name, "test")
 
+    def test_sign_getter(self):
+        self.assertEqual(self.test_player.sign, 'x')
+
     

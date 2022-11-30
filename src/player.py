@@ -1,3 +1,5 @@
+import constants
+
 class Player:
     """ Class player modelling a player in the game
 
@@ -37,12 +39,11 @@ class Player:
 
     def add_win_row(self, row):
         if row not in self.__won_rows:
-            print(f"Winning row: {row}")
             self.__won_rows.append(row)
             self.__occupied_rows += 1
 
     def won(self):
-        return self.__occupied_rows == 2
+        return self.__occupied_rows == constants.NUMBERS_OF_ROWS_TO_WIN
     
     def swap_turn(self):
         self.__turn = not self.__turn
@@ -50,4 +51,4 @@ class Player:
     def __str__(self):
         """Prints player's data to console
         """
-        return f"Player's name: {self.__name} "
+        return f"Player's name: {self.__name} who plays with {self.__sign}"

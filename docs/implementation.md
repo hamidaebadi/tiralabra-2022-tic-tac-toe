@@ -6,6 +6,7 @@
  configuration file and the main algorithm.
 
 Program begins from main.py file by initializing the UI and then starting it.
+
 **Classes for UI**
  - UserInteface
 
