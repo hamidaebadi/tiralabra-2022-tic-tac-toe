@@ -6,6 +6,8 @@ class GameBoard:
     Attributes:
         __board: board of the game
         __filled_slots: check and track filled board slots
+        __signed_slots: amount of taken slots in the board
+        __crosses_turn: swap turns on the board
 """
 
     def __init__(self):
@@ -14,7 +16,7 @@ class GameBoard:
         self.__board = [[" " for i in range(constants.BOARD_SIZE)] for i in range(constants.BOARD_SIZE)]
         self.__filled_slots = [[False for i in range(constants.BOARD_SIZE)] for i in range(constants.BOARD_SIZE)]
         self.__sigend_slots = 0
-        self.__crosses_turn = False
+       
         
 
     def fill_position(self, x: int, y: int, value: str):
@@ -41,14 +43,6 @@ class GameBoard:
         else:
             raise ValueError(str(x) + " "+str(y) + " is invalid positions on the board!")
         
-    def is_end_state(self):
-        return (self.__sigend_slots == (constants.BOARD_SIZE*constants.BOARD_SIZE)) or self.check_for_win()
-
-    def generate_children(self):
-        pass
-    def is_max_node(self):
-        return self.__crosses_turn
-
     def __validate_positions(self, x: int, y: int):
         """Private method validating the board positions. 
 
@@ -64,7 +58,6 @@ class GameBoard:
             if y >= 0 and y < constants.BOARD_SIZE:
                 return True
         return False
-
 
     def is_diagonal_win(self):
         """Check for a diagonal win in the board
