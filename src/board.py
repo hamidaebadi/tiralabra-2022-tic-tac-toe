@@ -65,23 +65,14 @@ class GameBoard:
                 return True
         return False
 
-    def check_for_win(self):
-        """This method check for possible win diagonally, row or coloumn
 
-        Retruns:
-            True if a win found, otherwise False
-        """
-
-        if self.__is_diagonal_win() or self.__is_coloumn_win() or self.__is_row_win():
-            return True
-        return False
-
-    def __is_diagonal_win(self):
+    def is_diagonal_win(self):
         """Check for a diagonal win in the board
 
         Retruns:
             True if all characters are the same diagonaly, otherwise False
         """
+        row = []
         if self.__sigend_slots == 0:
             return False
         
@@ -91,56 +82,82 @@ class GameBoard:
         sign = self.__board[x][y]
         while x < constants.BOARD_SIZE and y < constants.BOARD_SIZE:
             sign_slot = self.__board[x][y]
-            if sign_slot != sign:
+            if sign_slot != sign or sign_slot == " ":
                 diagonal_win = False
                 return False
             else:
+                row.append((x,y))
                 x += 1
                 y += 1
+
         if diagonal_win:
-            return True
+            return row
+
+        row.clear()
 
         x = 0
         y = constants.BOARD_SIZE - 1
         sign = self.__board[x][y]
         while x < constants.BOARD_SIZE and y >= 0:
             sign_slot = self.__board[x][y]
-            if sign_slot != sign:
+            if sign_slot != sign or sign_slot == " ":
                 return False
             else:
+                row.append((x,y))
                 x += 1
                 y -= 1
         
-        return True
+        return row
 
-    def __is_row_win(self):
+    def is_row_win(self):
         """Check for possible win in a row in the board
 
         Returns:
             True if a row of the same sign found, otherwise False
         """
+        won_rows = []
         if self.__sigend_slots == 0:
             return False
         
         for i in range(constants.BOARD_SIZE):
             sign = self.__board[i][0]
+            won = True
+            row = []
             for j in range(constants.BOARD_SIZE):
-                if self.__board[i][j] != sign:
-                    return False
+                if self.__board[i][j] != sign or self.__board[i][j] == " ":
+                    won = False
+                    break
+                row.append((i,j))
+            if won:
+                won_rows.append(row)
+    
 
-        return True
+        if len(won_rows) > 0:
+            return won_rows
+        else:
+            return False
 
-    def __is_coloumn_win(self):
+    def is_coloumn_win(self):
+        won_columns = []
         if self.__sigend_slots == 0:
             return False
 
         for x in range(constants.BOARD_SIZE):
+            row = []
+            won = True
             sign = self.__board[x][0]
             for y in range(constants.BOARD_SIZE):
-                if self.__board[y][x] != sign:
-                    return False
+                if self.__board[y][x] != sign or self.__board[y][x] == " ":
+                    won = False
+                    break
+                row.append((x, y))
+            if won:
+                won_columns.append(row)
 
-        return True
+        if len(won_columns) > 0:
+            return won_columns
+        else:
+            return False
 
     def __str__(self):
         """Visualize the state of the board
@@ -157,7 +174,7 @@ class GameBoard:
                 
 
             board_repr += "\n"
-            board_repr += "-------------------"
+            board_repr += "--- "*constants.BOARD_SIZE
             board_repr += "\n"
             
         return board_repr
