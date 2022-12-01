@@ -6,7 +6,6 @@ class Player:
     Attributes:
         __name: name of the player
         __turn: is it player's turn to play
-        __occupied_rows: (int) number of rows a player has won
 
     """
 
@@ -21,8 +20,7 @@ class Player:
         self.__name = name
         self.__sign = sign
         self.__turn = True
-        self.__occupied_rows = 0
-        self.__won_rows = []
+
 
     #getters and setters
     @property
@@ -37,13 +35,6 @@ class Player:
     def turn(self):
         return self.__turn
 
-    def add_win_row(self, row):
-        if row not in self.__won_rows:
-            self.__won_rows.append(row)
-            self.__occupied_rows += 1
-
-    def won(self):
-        return self.__occupied_rows == constants.NUMBERS_OF_ROWS_TO_WIN
     
     def swap_turn(self):
         self.__turn = not self.__turn

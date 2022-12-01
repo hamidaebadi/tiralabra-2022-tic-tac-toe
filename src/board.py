@@ -5,17 +5,15 @@ class GameBoard:
 
     Attributes:
         __board: board of the game
-        __filled_slots: check and track filled board slots
         __signed_slots: amount of taken slots in the board
-        __crosses_turn: swap turns on the board
 """
 
     def __init__(self):
         """Class constructore initializing board with empty cells
         """
         self.__board = [[" " for i in range(constants.BOARD_SIZE)] for i in range(constants.BOARD_SIZE)]
-        self.__filled_slots = [[False for i in range(constants.BOARD_SIZE)] for i in range(constants.BOARD_SIZE)]
         self.__sigend_slots = 0
+        self.is_max_turn = True
        
         
 
@@ -34,9 +32,8 @@ class GameBoard:
 
         
         if self.__validate_positions(x, y):
-            if(not self.__filled_slots[x][y]):
+            if(self.__board[x][y] == " "):
                 self.__board[x][y] = value
-                self.__filled_slots[x][y] = True
                 self.__sigend_slots += 1
                 return True
 
@@ -59,98 +56,79 @@ class GameBoard:
                 return True
         return False
 
-    def is_diagonal_win(self):
-        """Check for a diagonal win in the board
+    
+    def is_over(self, last_move: list, max_turn: bool):
+        """Checks whether the game  has been ended in draw or win
 
-        Retruns:
-            True if all characters are the same diagonaly, otherwise False
-        """
-        row = []
-        if self.__sigend_slots == 0:
-            return False
-        
-        diagonal_win = True
-        x = 0
-        y = 0
-        sign = self.__board[x][y]
-        while x < constants.BOARD_SIZE and y < constants.BOARD_SIZE:
-            sign_slot = self.__board[x][y]
-            if sign_slot != sign or sign_slot == " ":
-                diagonal_win = False
-                return False
-            else:
-                row.append((x,y))
-                x += 1
-                y += 1
-
-        if diagonal_win:
-            return row
-
-        row.clear()
-
-        x = 0
-        y = constants.BOARD_SIZE - 1
-        sign = self.__board[x][y]
-        while x < constants.BOARD_SIZE and y >= 0:
-            sign_slot = self.__board[x][y]
-            if sign_slot != sign or sign_slot == " ":
-                return False
-            else:
-                row.append((x,y))
-                x += 1
-                y -= 1
-        
-        return row
-
-    def is_row_win(self):
-        """Check for possible win in a row in the board
+        Args:
+            last_move (list): [x, y] position of the last move
+            max_turn (bool): who made the last move
 
         Returns:
-            True if a row of the same sign found, otherwise False
+            bool: True if game is over, False otherwise
         """
-        won_rows = []
-        if self.__sigend_slots == 0:
-            return False
+        if self.__sigend_slots == constants.BOARD_SIZE:
+            return True
+
+        if self.__row_win(last_move) or self.__column_win(last_move):
+            return True
+
+        return False
         
-        for i in range(constants.BOARD_SIZE):
-            sign = self.__board[i][0]
-            won = True
-            row = []
-            for j in range(constants.BOARD_SIZE):
-                if self.__board[i][j] != sign or self.__board[i][j] == " ":
-                    won = False
-                    break
-                row.append((i,j))
-            if won:
-                won_rows.append(row)
-    
 
-        if len(won_rows) > 0:
-            return won_rows
-        else:
-            return False
+    def __row_win(self, last_move):
+        """This method checks if a winning row is found from the last move by a player
 
-    def is_coloumn_win(self):
-        won_columns = []
-        if self.__sigend_slots == 0:
-            return False
+        Args:
+            last_move (arr): x and y position of the last move on the board
 
-        for x in range(constants.BOARD_SIZE):
-            row = []
-            won = True
-            sign = self.__board[x][0]
-            for y in range(constants.BOARD_SIZE):
-                if self.__board[y][x] != sign or self.__board[y][x] == " ":
-                    won = False
-                    break
-                row.append((x, y))
-            if won:
-                won_columns.append(row)
+        Returns:
+            Boolean: True if a winning row found, False otherwise
+        """ 
+        x, y = last_move
+        last_move_sign = self.__board[x][y]
+        counter_left = 0
 
-        if len(won_columns) > 0:
-            return won_columns
-        else:
-            return False
+        #check for win in left direction from the last move
+        while (y >= 0 and self.__board[x][y] == last_move_sign):
+            counter_left += 1
+            y -= 1
+
+        x, y = last_move
+        counter_right = 0
+
+         #check for win in right direction from the last move
+        while(y < constants.BOARD_SIZE and self.__board[x][y] == last_move_sign):
+            counter_right += 1
+            y += 1
+
+        return (counter_right + counter_left) >= 5
+
+    def __column_win(self, last_move):
+        """_summary_
+
+        Args:
+            last_move (arr): x and y position of the last move
+
+        Returns:
+            Boolean: True if a winning column is found, False otherwise
+        """
+        x,y = last_move
+        last_move_sign = self.__board[x][y]
+        counter_up = 0
+        #check for win going to up direction from the last move
+        while(x >= 0 and self.__board[x][y] == last_move_sign):
+            counter_up += 1
+            x -= 1
+
+        x,y = last_move
+        counter_down = 0
+        #check for win going to down direction from the last move
+        while(x < constants.BOARD_SIZE and self.__board[x][y] == last_move_sign):
+            counter_down += 1
+            x += 1
+
+        return (counter_down + counter_up) >= 5
 
     def __str__(self):
         """Visualize the state of the board
