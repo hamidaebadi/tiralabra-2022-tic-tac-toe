@@ -11,5 +11,5 @@ Tämä repo on luoto yliopiston harjoitustyön vuoksi kurssilla Aineopintojen ha
 ### Links to documentations
  - [Requirments](https://github.com/hamidaebadi/tiralabra-2022-tic-tac-toe/blob/master/docs/requirements.md)
  - [Implementation](https://github.com/hamidaebadi/tiralabra-2022-tic-tac-toe/blob/master/docs/implementation.md)
- - [Test Documentation](https://github.com/hamidaebadi/tiralabra-2022-tic-tac-toe/blob/master/docs/test-documentation.md)
+ - [Test Documentation](https://github.com/hamidaebadi/tiralabra-2022-tic-tac-toe/blob/master/docs/test-document.md)
  - [User Guidlines](https://github.com/hamidaebadi/tiralabra-2022-tic-tac-toe/blob/master/docs/use-guidlines.md)
