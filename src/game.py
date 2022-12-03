@@ -46,7 +46,7 @@ class Game:
                 neighbours = self.__game_board.free_neighbour_slots(last_move[0], last_move[1])
                 for item in neighbours:
                     moves_list.add((item[0], item[1]))
-                move = minimax(self.__game_board, last_move, moves_list, True)
+                move = minimax(self.__game_board, last_move, moves_list, True, 0)
                 print(move)
                 self.__player2.swap_turn()
                 self.__player1.swap_turn()

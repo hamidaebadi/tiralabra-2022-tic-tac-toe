@@ -1,5 +1,5 @@
 
-def minimax(node, last_move, move_list, min_turn):
+def minimax(node, last_move, move_list, min_turn, depth):
     if min_turn and node.is_over(last_move):
         return -1
     elif not min_turn and node.is_over(last_move):
@@ -18,10 +18,11 @@ def minimax(node, last_move, move_list, min_turn):
             for slot in neighbors:
                 cloned_move_list.add(slot)
 
-            value = min(value, minimax(node, move, cloned_move_list, False))
+            value = min(value, minimax(node, move, cloned_move_list, False, depth+1))
 
             # remove tested move from the board
             node.remove_sign(move[0], move[1])
+            
         return value
 
     else:   # it's max's turn
@@ -36,7 +37,8 @@ def minimax(node, last_move, move_list, min_turn):
             for slot in neighbors:
                 cloned_move_list.add(slot)
 
-            value = max(value, minimax(node, move, cloned_move_list, True))
+            value = max(value, minimax(node, move, cloned_move_list, True, depth+1))
             # remove tested move from the board
             node.remove_sign(move[0], move[1])
+            
         return value
