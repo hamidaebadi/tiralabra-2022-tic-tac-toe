@@ -18,6 +18,9 @@ def minimax(node, last_move, move_list: list, min_turn):
             #code here later
             #------------------------------------------------
             value = min(value, minimax(node, move, move_list, False))
+
+            # remove tested move from the board
+            node.remove_sign(move[0], move[1])
         return value
 
     else:   # it's max's turn
@@ -29,4 +32,6 @@ def minimax(node, last_move, move_list: list, min_turn):
             #code here later
             #------------------------------------------------
             value = max(value, minimax(node, move, move_list, True))
+            # remove tested move from the board
+            node.remove_sign(move[0], move[1])
         return value
