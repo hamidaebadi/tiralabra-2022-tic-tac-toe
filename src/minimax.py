@@ -1,5 +1,5 @@
 
-def minimax(node, last_move, move_list: list, min_turn):
+def minimax(node, last_move, move_list, min_turn):
     if min_turn and node.is_over(last_move[0], last_move[1]):
         return -1
     elif not min_turn and node.is_over(last_move[0], last_move[1]):
