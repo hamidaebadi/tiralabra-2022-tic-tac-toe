@@ -20,8 +20,9 @@ class Game:
                 if len(positions) == 0:
                     break
                 try:
-                    self.__game_board.fill_position(positions[0], positions[1], self.__player1.sign)
-                    if(self.__game_board.is_over(positions, True)):
+                    if self.__game_board.validate_positions(positions[0], positions[1]):
+                        self.__game_board.add_sign(positions[0], positions[1], self.__player1.sign)
+                    if(self.__game_board.is_over(positions)):
                         break
                 except ValueError:
                     print("Incorrect board positions were given!")

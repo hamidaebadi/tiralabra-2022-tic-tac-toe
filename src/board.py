@@ -17,10 +17,8 @@ class GameBoard:
        
         
 
-    def fill_position(self, x: int, y: int, value: str):
+    def add_sign(self, x: int, y: int, value: str):
         """method for filling a board slot in positino x, y if it's empty
-        and mark that slot filled in the self.__filled_slots data structure
-
         Args:
             x (int): the x position of slot
             y (int): the y position of slot
@@ -31,16 +29,15 @@ class GameBoard:
         """
 
         
-        if self.__validate_positions(x, y):
-            if(self.__board[x][y] == " "):
-                self.__board[x][y] = value
-                self.__sigend_slots += 1
-                return True
+        if(self.__board[x][y] == " "):
+            self.__board[x][y] = value
+            self.__sigend_slots += 1
+            return True
 
         else:
             raise ValueError(str(x) + " "+str(y) + " is invalid positions on the board!")
         
-    def __validate_positions(self, x: int, y: int):
+    def validate_positions(self, x: int, y: int):
         """Private method validating the board positions. 
 
         Args:
@@ -56,8 +53,12 @@ class GameBoard:
                 return True
         return False
 
+    def remove_sign(self, x: int, y:int):
+        if(x >= 0 and x < constants.BOARD_SIZE):
+            if(y >= 0 and y < constants.BOARD_SIZE):
+                self.__board[x][y] = " "
     
-    def is_over(self, last_move: list, max_turn: bool):
+    def is_over(self, last_move: list):
         """Checks whether the game  has been ended in draw or win
 
         Args:
@@ -67,7 +68,7 @@ class GameBoard:
         Returns:
             bool: True if game is over, False otherwise
         """
-        if self.__sigend_slots == constants.BOARD_SIZE:
+        if self.__sigend_slots == constants.BOARD_SIZE * constants.BOARD_SIZE:
             return True
 
         if self.__row_win(last_move) or self.__column_win(last_move):
@@ -92,6 +93,8 @@ class GameBoard:
         #check for win in left direction from the last move
         while (y >= 0 and self.__board[x][y] == last_move_sign):
             counter_left += 1
+            if counter_left == 5:
+                return True
             y -= 1
 
         x, y = last_move
@@ -100,9 +103,11 @@ class GameBoard:
          #check for win in right direction from the last move
         while(y < constants.BOARD_SIZE and self.__board[x][y] == last_move_sign):
             counter_right += 1
+            if counter_right == 5:
+                return True
             y += 1
 
-        return (counter_right + counter_left) >= 5
+        return ((counter_right + counter_left)-1) >= 5
 
     def __column_win(self, last_move):
         """_summary_
@@ -119,16 +124,20 @@ class GameBoard:
         #check for win going to up direction from the last move
         while(x >= 0 and self.__board[x][y] == last_move_sign):
             counter_up += 1
+            if counter_up == 5:
+                return True
             x -= 1
 
         x,y = last_move
         counter_down = 0
         #check for win going to down direction from the last move
-        while(x < constants.BOARD_SIZE and self.__board[x][y] == last_move_sign):
+        while((x < constants.BOARD_SIZE) and (self.__board[x][y] == last_move_sign)):
             counter_down += 1
+            if counter_down == 5:
+                return True
             x += 1
 
-        return (counter_down + counter_up) >= 5
+        return ((counter_down + counter_up)-1) >= 5
 
     def __str__(self):
         """Visualize the state of the board
