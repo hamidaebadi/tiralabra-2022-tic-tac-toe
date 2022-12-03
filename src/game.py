@@ -1,3 +1,4 @@
+from minimax import minimax
 class Game:
     """Class Game models and implement the tic-tac-toe game
 
@@ -38,6 +39,7 @@ class Game:
             else:
                 #bot plays
                 print("Bot Plays a move")
+                
                 #alogrithm works here
                 self.__player2.swap_turn()
                 self.__player1.swap_turn()

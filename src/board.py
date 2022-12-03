@@ -76,6 +76,55 @@ class GameBoard:
 
         return False
         
+    def free_neighbour_slots(self, x: int, y: int):
+        neighbours = []
+
+        #neighbour (-x,y)
+        xUp = x-1
+        if (xUp >= 0) and (self.__board[xUp][y] == " "):    
+            neighbours.append((xUp, y))
+            
+        #neighbour (+x, y)
+        xDown = x+1
+        if (xDown < constants.BOARD_SIZE) and (self.__board[xDown][y] == " "):  
+            neighbours.append((xDown, y))
+
+        #neighbour (x, +y)
+        yRight = y+1
+        if(yRight < constants.BOARD_SIZE) and (self.__board[x][yRight] == " "):
+            neighbours.append((x, yRight))
+
+        #neighbour (x, -y)
+        yLeft = y-1
+        if(yLeft >= 0) and (self.__board[x][yLeft] == " "):
+            neighbours.append((x, yLeft))
+
+        #neighbour (-x, +y)
+        xUpRight = x-1
+        yUpRight = y+1
+        if(xUpRight >= 0 and yUpRight < constants.BOARD_SIZE) and (self.__board[xUpRight][yUpRight] == " "):
+            neighbours.append((xUpRight, yUpRight))
+
+
+        #neighbour (+x, +y)
+        xDownRight = x+1
+        yDownRight = y+1
+        if(xDownRight < constants.BOARD_SIZE and yDownRight < constants.BOARD_SIZE) and (self.__board[xDownRight][yDownRight] == " "):
+            neighbours.append((xDownRight, yDownRight))
+
+        #neighbour (-x, -y)
+        xUpLeft = x-1
+        yUpLeft = y-1
+        if(xUpLeft >= 0 and yUpLeft >= 0) and (self.__board[xUpLeft][yUpLeft] == " "):
+            neighbours.append((xUpLeft, yUpLeft))
+
+        #neighbour (+x, -y)
+        xDownLeft = x+1
+        yDownLeft = y-1
+        if(xDownLeft < constants.BOARD_SIZE and yDownLeft >= 0) and (self.__board[xDownLeft][yDownLeft] == " "):
+            neighbours.append((xDownLeft, yDownLeft))
+        
+        return neighbours
 
     def __row_win(self, last_move):
         """This method checks if a winning row is found from the last move by a player
