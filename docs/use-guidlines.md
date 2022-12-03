@@ -11,5 +11,5 @@ python3 src/main.py
 ```
 
 ### How to play the game?
-It's very simple, just write where to put your sign into the table
+It's very simple, just write where to put your sign into the table.
 Game board is zero-indexed 
