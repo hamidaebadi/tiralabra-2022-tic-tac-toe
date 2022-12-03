@@ -14,6 +14,7 @@ class GameBoard:
         self.__board = [[" " for i in range(constants.BOARD_SIZE)] for i in range(constants.BOARD_SIZE)]
         self.__sigend_slots = 0
         self.is_max_turn = True
+        self.__winning_sign_amount = 3
        
         
 
@@ -33,9 +34,6 @@ class GameBoard:
             self.__board[x][y] = value
             self.__sigend_slots += 1
             return True
-
-        else:
-            raise ValueError(str(x) + " "+str(y) + " is invalid positions on the board!")
         
     def validate_positions(self, x: int, y: int):
         """Private method validating the board positions. 
@@ -57,6 +55,7 @@ class GameBoard:
         if(x >= 0 and x < constants.BOARD_SIZE):
             if(y >= 0 and y < constants.BOARD_SIZE):
                 self.__board[x][y] = " "
+                self.__sigend_slots -= 1
     
     def is_over(self, last_move: list):
         """Checks whether the game  has been ended in draw or win
@@ -142,7 +141,7 @@ class GameBoard:
         #check for win in left direction from the last move
         while (y >= 0 and self.__board[x][y] == last_move_sign):
             counter_left += 1
-            if counter_left == 5:
+            if counter_left == self.__winning_sign_amount:
                 return True
             y -= 1
 
@@ -152,11 +151,11 @@ class GameBoard:
          #check for win in right direction from the last move
         while(y < constants.BOARD_SIZE and self.__board[x][y] == last_move_sign):
             counter_right += 1
-            if counter_right == 5:
+            if counter_right == self.__winning_sign_amount:
                 return True
             y += 1
 
-        return ((counter_right + counter_left)-1) >= 5
+        return ((counter_right + counter_left)-1) >= self.__winning_sign_amount
 
     def __column_win(self, last_move):
         """_summary_
@@ -173,7 +172,7 @@ class GameBoard:
         #check for win going to up direction from the last move
         while(x >= 0 and self.__board[x][y] == last_move_sign):
             counter_up += 1
-            if counter_up == 5:
+            if counter_up == self.__winning_sign_amount:
                 return True
             x -= 1
 
@@ -182,11 +181,11 @@ class GameBoard:
         #check for win going to down direction from the last move
         while((x < constants.BOARD_SIZE) and (self.__board[x][y] == last_move_sign)):
             counter_down += 1
-            if counter_down == 5:
+            if counter_down == self.__winning_sign_amount:
                 return True
             x += 1
 
-        return ((counter_down + counter_up)-1) >= 5
+        return ((counter_down + counter_up)-1) >= self.__winning_sign_amount
 
     def __str__(self):
         """Visualize the state of the board

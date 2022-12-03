@@ -15,9 +15,11 @@ class Game:
     def start(self):
         print(f"Game started between {self.__player1.name} and {self.__player2.name}")
         print(self.__game_board)
+        last_move=[]
         while True:
             if(self.__player1.turn):    #it's human's turn
                 positions = [int(num) for num in input("Your Turn! \n Where to put your sign: ").split()]
+                last_move = positions
                 if len(positions) == 0:
                     break
                 try:
@@ -39,8 +41,13 @@ class Game:
             else:
                 #bot plays
                 print("Bot Plays a move")
-                
                 #alogrithm works here
+                moves_list = set()
+                neighbours = self.__game_board.free_neighbour_slots(last_move[0], last_move[1])
+                for item in neighbours:
+                    moves_list.add((item[0], item[1]))
+                move = minimax(self.__game_board, last_move, moves_list, True)
+                print(move)
                 self.__player2.swap_turn()
                 self.__player1.swap_turn()
         print("Game ended in the following state")

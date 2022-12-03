@@ -1,8 +1,8 @@
 
-def minimax(node, last_move, move_list: set, min_turn):
-    if min_turn and node.is_over(last_move[0], last_move[1]):
+def minimax(node, last_move, move_list, min_turn):
+    if min_turn and node.is_over(last_move):
         return -1
-    elif not min_turn and node.is_over(last_move[0], last_move[1]):
+    elif not min_turn and node.is_over(last_move):
         return 1
     elif len(move_list) == 0 :
         return 0
@@ -11,10 +11,10 @@ def minimax(node, last_move, move_list: set, min_turn):
         value = float('+inf')
         for move in move_list:
             node.add_sign(move[0], move[1], '0')    #add sign to the neighbour slot
-            
-            cloned_move_list = move_list
+
+            cloned_move_list = move_list.copy()
             cloned_move_list.remove((move[0], move[1]))     # remove tested slot from cloned
-            neighbors = node.free_neighbour_slots()         # add all free neighbour slots to the cloned moveList
+            neighbors = node.free_neighbour_slots(move[0], move[1])         # add all free neighbour slots to the cloned moveList
             for slot in neighbors:
                 cloned_move_list.add(slot)
 
@@ -29,10 +29,10 @@ def minimax(node, last_move, move_list: set, min_turn):
         for move in move_list:
             node.add_sign(move[0], move[1], 'x')
             
-            cloned_move_list = move_list
+            cloned_move_list = move_list.copy()
             cloned_move_list.remove((move[0], move[1]))    # remove tested slot from cloned
 
-            neighbors = node.free_neighbour_slots()         # add all free neighbour slots to the cloned moveList
+            neighbors = node.free_neighbour_slots(move[0], move[1])         # add all free neighbour slots to the cloned moveList
             for slot in neighbors:
                 cloned_move_list.add(slot)
 
