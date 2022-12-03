@@ -1,8 +1,11 @@
 ### How to run the program?
  - First clone it into your local machin via ssh or http
-`git clone git@github.com:hamidaebadi/tiralabra-2022-tic-tac-toe.git`
+
+```git clone git@github.com:hamidaebadi/tiralabra-2022-tic-tac-toe.git```
+
  - Go to the project root and install dependencies with poetry
-`poetry install`
+ 
+```poetry install```
 
  - Run the program with 
 ```
