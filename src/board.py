@@ -18,7 +18,7 @@ class GameBoard:
        
         
 
-    def add_sign(self, x: int, y: int, value: str):
+    def add_mark(self, x: int, y: int, value: str):
         """method for filling a board slot in positino x, y if it's empty
         Args:
             x (int): the x position of slot
@@ -48,16 +48,17 @@ class GameBoard:
 
         if x>= 0 and x< constants.BOARD_SIZE:
             if y >= 0 and y < constants.BOARD_SIZE:
-                return True
-        return False
+                if self.__board[x][y] == " ":
+                    return True
+        raise ValueError()
 
-    def remove_sign(self, x: int, y:int):
+    def remove_mark(self, x: int, y:int):
         if(x >= 0 and x < constants.BOARD_SIZE):
             if(y >= 0 and y < constants.BOARD_SIZE):
                 self.__board[x][y] = " "
                 self.__sigend_slots -= 1
     
-    def is_over(self, last_move: list):
+    def is_winning(self, last_move: list):
         """Checks whether the game  has been ended in draw or win
 
         Args:

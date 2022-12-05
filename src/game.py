@@ -24,11 +24,11 @@ class Game:
                     break
                 try:
                     if self.__game_board.validate_positions(positions[0], positions[1]):
-                        self.__game_board.add_sign(positions[0], positions[1], self.__player1.sign)
-                    if(self.__game_board.is_over(positions)):
+                        self.__game_board.add_mark(positions[0], positions[1], self.__player1.sign)
+                    if(self.__game_board.is_winning(positions)):
                         break
                 except ValueError:
-                    print("Incorrect board positions were given!")
+                    print("Illegal move")
                     print("Try again")
                     continue
 
@@ -46,8 +46,12 @@ class Game:
                 neighbours = self.__game_board.free_neighbour_slots(last_move[0], last_move[1])
                 for item in neighbours:
                     moves_list.add((item[0], item[1]))
-                move = minimax(self.__game_board, last_move, moves_list, True, 0)
-                print(move)
+                result = minimax(self.__game_board, last_move, moves_list, True)
+                move = result[1]
+                self.__game_board.add_mark(move[0], move[1], self.__player2.sign)
+                print(self.__game_board)
+                if(self.__game_board.is_winning(move)):
+                        break
                 self.__player2.swap_turn()
                 self.__player1.swap_turn()
         print("Game ended in the following state")
