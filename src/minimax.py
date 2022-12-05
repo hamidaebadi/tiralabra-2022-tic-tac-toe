@@ -1,5 +1,5 @@
 
-def minimax(node, last_move, move_list, min_turn):
+def minimax(node, last_move, move_list, min_turn, depth):
     if min_turn and node.is_winning(last_move):
         return (-1, last_move)
     elif not min_turn and node.is_winning(last_move):
@@ -18,12 +18,14 @@ def minimax(node, last_move, move_list, min_turn):
             for slot in neighbors:
                 cloned_move_list.add(slot)
 
-            min_tuple = minimax(node, move, cloned_move_list, False)
-            value = (min(value[0], min_tuple[0]), min_tuple[1])
+            min_tuple = minimax(node, move, cloned_move_list, False, depth+1)
+
+            if min_tuple[0] < value[0]:
+                value = (min_tuple[0], move)
 
             # remove tested move from the board
             node.remove_mark(move[0], move[1])
-            
+                        
         return value
 
     else:   # it's max's turn
@@ -38,8 +40,11 @@ def minimax(node, last_move, move_list, min_turn):
             for slot in neighbors:
                 cloned_move_list.add(slot)
 
-            max_tuple = minimax(node, move, cloned_move_list, True)
-            value = (max(value[0], max_tuple[0]), max_tuple[1])
+            max_tuple = minimax(node, move, cloned_move_list, True, depth+1)
+            if max_tuple[0] > value[0]:
+                value = (max_tuple[0], move)
+            value = (max(value[0], max_tuple[0]), move)
+
             # remove tested move from the board
             node.remove_mark(move[0], move[1])
             

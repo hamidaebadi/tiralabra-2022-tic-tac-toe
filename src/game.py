@@ -46,7 +46,8 @@ class Game:
                 neighbours = self.__game_board.free_neighbour_slots(last_move[0], last_move[1])
                 for item in neighbours:
                     moves_list.add((item[0], item[1]))
-                result = minimax(self.__game_board, last_move, moves_list, True)
+                result = minimax(self.__game_board, last_move, moves_list, True, 0)
+                print(result)
                 move = result[1]
                 self.__game_board.add_mark(move[0], move[1], self.__player2.sign)
                 print(self.__game_board)
