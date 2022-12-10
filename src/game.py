@@ -47,7 +47,7 @@ class Game:
                 neighbours = self.__game_board.free_neighbour_slots(last_move[0], last_move[1])
                 for item in neighbours:
                     moves_list.add(item)
-                best_move = minimax(self.__game_board, last_move, moves_list, False, float("-inf"), float("+inf"), 7)
+                best_move = minimax(self.__game_board, last_move, moves_list, False, float("-inf"), float("+inf"), 7)[1]
                 self.__game_board.add_mark(best_move[0], best_move[1], self.__player2.sign)
                 print(self.__game_board)
                 if(self.__game_board.is_winning(best_move) or self.__game_board.draw()):
