@@ -14,7 +14,7 @@ class GameBoard:
         self.__board = [[" " for i in range(constants.BOARD_SIZE)] for i in range(constants.BOARD_SIZE)]
         self.__sigend_slots = 0
         self.is_max_turn = True
-        self.__winning_sign_amount = 3
+        self.__winning_sign_amount = 5
        
         
 
@@ -53,10 +53,8 @@ class GameBoard:
         raise ValueError()
 
     def remove_mark(self, x: int, y:int):
-        if(x >= 0 and x < constants.BOARD_SIZE):
-            if(y >= 0 and y < constants.BOARD_SIZE):
-                self.__board[x][y] = " "
-                self.__sigend_slots -= 1
+        self.__board[x][y] = " "
+        self.__sigend_slots -= 1
     
     def is_winning(self, last_move: list):
         """Checks whether the game  has been ended in draw or win
@@ -68,10 +66,7 @@ class GameBoard:
         Returns:
             bool: True if game is over, False otherwise
         """
-        if self.__sigend_slots == constants.BOARD_SIZE * constants.BOARD_SIZE:
-            return True
-
-        if self.__row_win(last_move) or self.__column_win(last_move):
+        if self.__row_win(last_move) or self.__column_win(last_move) or self.__clock_wise_diagnoal_win(last_move) or self.__anti_clock_wise_diagonal_win(last_move):
             return True
 
         return False
@@ -187,6 +182,59 @@ class GameBoard:
             x += 1
 
         return ((counter_down + counter_up)-1) >= self.__winning_sign_amount
+
+    def __clock_wise_diagnoal_win(self, last_move):
+        xUpRight =last_move[0]
+        yUpRight = last_move[1]
+        last_move_mark = self.__board[xUpRight][yUpRight]
+        counterUp = 0
+        while (xUpRight >= 0 and yUpRight < constants.BOARD_SIZE) and self.__board[xUpRight][yUpRight] == last_move_mark:
+            counterUp += 1
+            if counterUp == self.__winning_sign_amount:
+                return True
+            xUpRight -= 1
+            yUpRight += 1
+
+        xDownLeft =last_move[0]
+        yDownLeft = last_move[1]
+        counterDonw = 0
+        while (xDownLeft < constants.BOARD_SIZE and yDownLeft >= 0) and self.__board[xDownLeft][yDownLeft] == last_move_mark:
+            counterDonw += 1
+            if counterDonw == self.__winning_sign_amount:
+                return True
+            xDownLeft += 1
+            yDownLeft -= 1
+
+        return ((counterDonw + counterUp)-1) ==self.__winning_sign_amount
+
+    def __anti_clock_wise_diagonal_win(self, last_move):
+        xUpLeft = last_move[0]
+        yUpLeft = last_move[1]
+        last_move_mark = self.__board[xUpLeft][yUpLeft]
+        counterUpLeft = 0
+        while (xUpLeft >= 0 and yUpLeft >= 0) and self.__board[xUpLeft][yUpLeft] == last_move_mark:
+            counterUpLeft += 1
+            if counterUpLeft == self.__winning_sign_amount:
+                return True
+            xUpLeft -= 1
+            yUpLeft -= 1
+
+
+        xDownRight = last_move[0]
+        yDownRight = last_move[1]
+        counterDownRight = 0
+        while(xDownRight < constants.BOARD_SIZE and yDownRight < constants.BOARD_SIZE) and self.__board[xDownRight][yDownRight] == last_move_mark:
+            counterDownRight += 1
+            if counterDownRight == self.__winning_sign_amount:
+                return True
+
+            xDownRight +=1
+            yDownRight += 1
+
+        return ((counterDownRight + counterUpLeft)-1)==self.__winning_sign_amount
+
+    def draw(self):
+        return self.__sigend_slots == (constants.BOARD_SIZE*constants.BOARD_SIZE)
 
     def __str__(self):
         """Visualize the state of the board
