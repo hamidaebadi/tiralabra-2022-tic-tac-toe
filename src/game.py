@@ -1,4 +1,4 @@
-from minimaxBasic import minimax
+from minimax import minimax
 
 class Game:
     """Class Game models and implement the tic-tac-toe game
@@ -51,7 +51,7 @@ class Game:
                     moves_list.remove((last_move[0], last_move[1]))
                         
                 print(moves_list)
-                result = minimax(self.__game_board, last_move, moves_list, True)
+                result = minimax(self.__game_board, last_move, moves_list, True, float("-inf"), float("+inf"), 7)
                 best_move = result[1]
                 self.__game_board.add_mark(best_move[0], best_move[1], self.__player2.sign)
                 if (best_move[0], best_move[1])in moves_list:
