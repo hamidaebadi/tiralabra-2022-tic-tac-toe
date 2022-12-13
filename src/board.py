@@ -70,7 +70,8 @@ class GameBoard:
             return True
 
         return False
-        
+    def is_draw(self):
+        return self.__sigend_slots == (constants.BOARD_SIZE*constants.BOARD_SIZE)
     def free_neighbour_slots(self, x: int, y: int):
         neighbours = []
 
@@ -232,9 +233,6 @@ class GameBoard:
             yDownRight += 1
 
         return ((counterDownRight + counterUpLeft)-1)==self.__winning_sign_amount
-
-    def draw(self):
-        return self.__sigend_slots == (constants.BOARD_SIZE*constants.BOARD_SIZE)
 
     def __str__(self):
         """Visualize the state of the board

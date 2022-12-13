@@ -1,4 +1,4 @@
-from minimax import minimax
+from minimaxBasic import minimax
 
 class Game:
     """Class Game models and implement the tic-tac-toe game
@@ -17,6 +17,7 @@ class Game:
         print(f"Game started between {self.__player1.name} and {self.__player2.name}")
         print(self.__game_board)
         last_move=[]
+        moves_list = set()
         while True:
             if(self.__player1.turn):    #it's human's turn
                 positions = [int(num) for num in input("Your Turn! \n Where to put your sign: ").split()]
@@ -43,14 +44,20 @@ class Game:
                 #bot plays
                 print("Bot Plays a move")
                 #alogrithm works here
-                moves_list = set()
                 neighbours = self.__game_board.free_neighbour_slots(last_move[0], last_move[1])
                 for item in neighbours:
                     moves_list.add(item)
-                best_move = minimax(self.__game_board, last_move, moves_list, False, float("-inf"), float("+inf"), 7)[1]
+                if (last_move[0], last_move[1]) in moves_list:
+                    moves_list.remove((last_move[0], last_move[1]))
+                        
+                print(moves_list)
+                result = minimax(self.__game_board, last_move, moves_list, True)
+                best_move = result[1]
                 self.__game_board.add_mark(best_move[0], best_move[1], self.__player2.sign)
+                if (best_move[0], best_move[1])in moves_list:
+                    moves_list.remove((best_move[0], best_move[1]))
                 print(self.__game_board)
-                if(self.__game_board.is_winning(best_move) or self.__game_board.draw()):
+                if(self.__game_board.is_winning(best_move) or self.__game_board.is_draw()):
                     break
                 self.__player2.swap_turn()
                 self.__player1.swap_turn()
